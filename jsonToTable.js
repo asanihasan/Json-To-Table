@@ -48,7 +48,7 @@ function jsonToTableHead(json) {
         let th = document.createElement("th");
         th.setAttribute("colspan", e.cols);
         th.setAttribute("rowspan", 1);
-        th.textContent = e.name;
+        th.innerHTML = e.name;
 
         if (!e.hasChild) {
           th.setAttribute("rowspan", maxDeep - e.deep + 1);
