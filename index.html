@@ -8,8 +8,12 @@
     <!-- Include jsPDF and html2canvas libraries from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="jsonToTable.js"></script>
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"
+    />
     <style>
       /* Styling the content to be exported */
       #content {
@@ -53,7 +57,86 @@
   </head>
   <body>
     <div id="content">
-      <table id="myTable" border="1"></table>
+      <table id="myTable" border="1" class="dataTable">
+        <tbody>
+          <tr>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     &#10004;
     <button onclick="generatePDF()">Download PDF</button>
@@ -132,7 +215,8 @@
 
       // Insert the generated thead into the table
 
-      $("#myTable").append(jsonToTableHead(json));
+      $("#myTable").prepend(jsonToTableHead(json));
+      let table = new DataTable("#myTable");
     </script>
   </body>
 </html>
