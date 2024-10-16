@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexible JSON to Table Head</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jsPDF and html2canvas libraries from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+      /* Styling the content to be exported */
+      #content {
+        font-family: Arial, sans-serif;
+        width: auto;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      h1 {
+        color: #4caf50;
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <table id="myTable" border="1"></table>
+    </div>
+    <button onclick="generatePDF()">Download PDF</button>
+
+    <script>
+      function generatePDF() {
+        const { jsPDF } = window.jspdf;
+
+        // Get the HTML content
+        const content = document.getElementById("content");
+
+        // Use html2canvas to capture the content as an image
+        html2canvas(content).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("p", "mm", "a4"); // A4 size
+
+          // Calculate image dimensions to fit the PDF page
+          const imgWidth = 210; // A4 width in mm
+          const pageHeight = 295; // A4 height in mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          let heightLeft = imgHeight;
+          let position = 0;
+
+          // Add the first page
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+
+          // If content exceeds one page, add new pages
+          while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+
+          // Save the PDF
+          pdf.save("document.pdf");
+        });
+      }
+    </script>
+
+    <script>
+      const json = [
+        {
+          month1: [
+            {
+              week1: ["day", "saving"],
+            },
+            {
+              week2: [{ days: ["sunday", "monday"] }, "saving"],
+            },
+          ],
+        },
+        "saving for holiday",
+        {
+          month1: [
+            {
+              week1: ["day", "saving"],
+            },
+            {
+              week2: ["day", "saving"],
+            },
+            {
+              week3: ["day", "saving"],
+            },
+            {
+              week4: ["day", "saving"],
+            },
+            {
+              week5: ["day", "saving"],
+            },
+          ],
+        },
+        "saving for holiday",
+      ];
+
+      // Insert the generated thead into the table
+
+      $("#myTable").append(jsonToTableHead(json));
+
+      function jsonToTableHead(json) {
+        let deep = 1;
+        let maxDeep = 1;
+        let container = [];
+        function maping(json) {
+          let cols = 0;
+          json.forEach((e) => {
+            if (typeof e === "object" && !Array.isArray(e) && e !== null) {
+              deep++;
+              if (deep > maxDeep) {
+                maxDeep = deep;
+              }
+              let element = e[Object.keys(e)[0]];
+              let childColl = maping(element);
+              cols += childColl;
+              deep--;
+              let data = {
+                cols: childColl,
+                name: Object.keys(e)[0],
+                deep,
+                hasChild: true,
+              };
+              container.push(data);
+            } else if (typeof e === "string") {
+              cols++;
+              let data = {
+                cols: 1,
+                name: e,
+                deep,
+                hasChild: false,
+              };
+              container.push(data);
+            }
+          });
+          return cols;
+        }
+        let cols = maping(json);
+        let thead = $("<thead></thead>");
+        for (let i = 1; i <= maxDeep; i++) {
+          let tr = $("<tr></tr>");
+          container.forEach((e) => {
+            if (e.deep == i) {
+              let thString = `<th colspan="${e.cols}" rowspan="1">${e.name}</th>`;
+              let th = $(thString);
+              if (!e.hasChild) {
+                th.attr("rowspan", maxDeep - e.deep + 1);
+              }
+              tr.append(th);
+            }
+          });
+          thead.append(tr);
+        }
+        return thead;
+      }
+    </script>
+  </body>
+</html>
