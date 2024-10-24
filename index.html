@@ -57,86 +57,7 @@
   </head>
   <body>
     <div id="content">
-      <table id="myTable" border="1" class="dataTable">
-        <tbody>
-          <tr>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-            <td>13</td>
-          </tr>
-          <tr>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-            <td>14</td>
-          </tr>
-          <tr>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-            <td>15</td>
-          </tr>
-        </tbody>
-      </table>
+      <table id="myTable" border="1" class="dataTable"></table>
     </div>
     &#10004;
     <button onclick="generatePDF()">Download PDF</button>
@@ -213,9 +134,71 @@
         "saving for holiday",
       ];
 
+      const json2 = [
+        [
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+          "oke",
+        ],
+        [
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+          "yeah",
+        ],
+        [
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+          "mangtap",
+        ],
+      ];
+
       // Insert the generated thead into the table
 
       $("#myTable").prepend(jsonToTableHead(json));
+      $("#myTable").append(jsonToTableBody(json2));
+
       let table = new DataTable("#myTable");
     </script>
   </body>
